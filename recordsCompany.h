@@ -29,7 +29,7 @@ public:
 class RecordsCompany {
   private:
     hashTable<std::shared_ptr<Customer>> customer_hash;
-    int* record_copies;
+    std::shared_ptr<Record>* record_copies;
   public:
     RecordsCompany();
     ~RecordsCompany();

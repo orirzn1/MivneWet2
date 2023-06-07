@@ -24,8 +24,12 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
         customer_hash.zeroCustomerDebt();
         if(record_copies)
             delete[] record_copies;
-        record_copies = new int[number_of_records];
-        record_copies = records_stocks;
+        record_copies = new std::shared_ptr<Record>[number_of_records];
+        for(int i = 0; i < number_of_records; i++)
+        {
+            std::shared_ptr<Record> record = std::make_shared<Record>(i, records_stocks[i]);
+            record_copies[i] = record;
+        }
         return StatusType::SUCCESS;
     }
     catch(std::bad_alloc& e)
@@ -37,7 +41,6 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
 
 StatusType RecordsCompany::addCostumer(int c_id, int phone)
 {
-//NEED TO RESIZE HASH IF WE PASS THE THRESHOLD LOAD FACTOR
     if(phone < 0 or c_id < 0)
         return StatusType::INVALID_INPUT;
     std::shared_ptr<Customer> customer = std::make_shared<Customer>(c_id, phone);
