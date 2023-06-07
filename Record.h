@@ -33,7 +33,6 @@ public:
     void purchase()
     {
         purchases++;
-        copies--; 
     }
     
 };

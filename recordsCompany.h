@@ -29,7 +29,9 @@ class RecordsCompany {
   private:
     hashTable<std::shared_ptr<Customer>> customer_hash;
     std::shared_ptr<Record>* record_copies;
+    Tree<std::shared_ptr<Customer>, int> member_tree; 
     int number_of_records;
+    
   public:
     RecordsCompany();
     ~RecordsCompany();

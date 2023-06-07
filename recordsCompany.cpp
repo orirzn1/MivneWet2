@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "recordsCompany.h"
 
-RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr), number_of_records(0)
+RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr), member_tree(Tree<std::shared_ptr<Customer>, int>()), number_of_records(0)
 {
     
 }
@@ -77,10 +77,12 @@ StatusType RecordsCompany::makeMember(int c_id)
         return StatusType::INVALID_INPUT;
     try
     {
-        Customer* customer = customer_hash.findObject(c_id).get();
-        if(customer->getMemberStatus())
+        std::shared_ptr<Customer> customer = customer_hash.findObject(c_id);
+        Customer* customer_raw = customer.get();
+        if(customer_raw->getMemberStatus())
             return StatusType::ALREADY_EXISTS;
         customer->makeMember();
+        member_tree.insert(customer, c_id);
         return StatusType::SUCCESS;
     }
     catch(Failure& e)
