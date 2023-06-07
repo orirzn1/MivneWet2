@@ -10,9 +10,11 @@
 
 #include "Tree.h"
 
-const int DOUBLE = 2;
-const int HALF = 0.5;
-static const int LOAD_FACTOR = 0.7;
+static const int DOUBLE = 2;
+static const double HALF = 0.5;
+static const double LOAD_FACTOR_MAX_THRESHOLD = 0.75;
+static const double LOAD_FACTOR_MIN_THRESHOLD = LOAD_FACTOR_MAX_THRESHOLD/4;
+static const int INITIAL_SIZE = 4;
 
 template <class T>
 class hashTable
@@ -27,9 +29,9 @@ private:
         return ID % table_size;
     }
 public:
-    explicit hashTable(int size) : table_size(size), tree_array(new Tree<T, int>*[size]), element_counter(0)
+    explicit hashTable() : table_size(INITIAL_SIZE), tree_array(new Tree<T, int>*[INITIAL_SIZE]), element_counter(0)
     {
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < INITIAL_SIZE; i++)
             tree_array[i] = new Tree<T, int>();
     }
 
@@ -73,8 +75,9 @@ public:
         {
             modifySizeAux(new_array, N->right, new_size);
             modifySizeAux(new_array, N->left, new_size);
-            int newIndex = (N->data.get()->getID) % new_size;
-            new_array[newIndex]->insert(N);
+            int ID = N->data.get()->getID();
+            int newIndex = ID % new_size;
+            new_array[newIndex]->insert(N->data, ID);
         }
     }
 
@@ -86,6 +89,8 @@ public:
         {
             tree_array[index]->insert(object, ID);
             element_counter++;
+            if(getLoadFactor() > LOAD_FACTOR_MAX_THRESHOLD)
+                doubleSize();
             return true; 
         }
         catch(Failure& e)
@@ -101,6 +106,8 @@ public:
         {
             tree_array[index]->remove(ID);
             element_counter--;
+            if(getLoadFactor() < LOAD_FACTOR_MIN_THRESHOLD)
+                halfSize();
             return true;
         }
         catch(Failure& e)
@@ -110,7 +117,7 @@ public:
     }
 
     
-    T findObject(int ID)
+    T& findObject(int ID)
     {
         int index = hashFunction(ID);
         return (tree_array[index]->findNode(ID))->data;
@@ -137,6 +144,11 @@ public:
     int getSize()
     {
         return table_size; 
+    }
+    
+    double getLoadFactor()
+    {
+        return (element_counter/table_size);
     }
 };
 
