@@ -10,6 +10,9 @@
 
 #include "Tree.h"
 
+const int DOUBLE = 2;
+const int HALF = 0.5;
+
 template <class T>
 class hashTable
 {
@@ -34,9 +37,42 @@ public:
         delete[] tree_array;
     }
     
-    hashTable resize()
+    void doubleSize()
     {
-        //TODO;
+        modifySize(DOUBLE);
+    }
+    
+    hashTable halfSize()
+    {
+        modifySize(HALF);
+    }
+    
+    void modifySize(int size_change_factor)
+    {
+        int new_size = size_change_factor*table_size;
+        Tree<T, int>** new_array = new Tree<T, int>*[new_size];
+        for (int i = 0; i < new_size; i++)
+            new_array[i] = new Tree<T, int>();
+        for (int i = 0; i < table_size; i++)
+        {
+            Tree<T, int>* current = tree_array[i];
+            modifySizeAux(new_array, current->getRoot(), new_size);
+            delete tree_array[i];
+        }
+        delete[] tree_array;
+        tree_array = new_array;
+        table_size = new_size;
+    }
+    
+    void modifySizeAux(Tree<T, int>** new_array, node<T, int>* N, int new_size)
+    {
+        if(N)
+        {
+            modifySizeAux(new_array, N->right, new_size);
+            modifySizeAux(new_array, N->left, new_size);
+            int newIndex = (N->data.get()->getID) % new_size;
+            new_array[newIndex]->insert(N);
+        }
     }
 
     bool insert(T& object)
