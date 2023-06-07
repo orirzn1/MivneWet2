@@ -26,7 +26,6 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
         return StatusType::INVALID_INPUT;
     try
     {
-        this->number_of_records = number_of_records;
         customer_hash.zeroCustomerDebt();
         if(record_copies)
             delete[] record_copies;
@@ -36,6 +35,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
             std::shared_ptr<Record> record = std::make_shared<Record>(i, records_stocks[i]);
             record_copies[i] = record;
         }
+        this->number_of_records = number_of_records;
         return StatusType::SUCCESS;
     }
     catch(std::bad_alloc& e)
