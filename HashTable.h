@@ -20,12 +20,14 @@ class hashTable
 private:
     int table_size;
     Tree<T, int>** tree_array; //an array of pointers to trees
+    int element_counter;
+    
     int hashFunction(int ID)
     {
         return ID % table_size;
     }
 public:
-    explicit hashTable(int size) : table_size(size), tree_array(new Tree<T, int>*[size])
+    explicit hashTable(int size) : table_size(size), tree_array(new Tree<T, int>*[size]), element_counter(0)
     {
         for (int i = 0; i < size; i++)
             tree_array[i] = new Tree<T, int>();
@@ -83,6 +85,7 @@ public:
         try
         {
             tree_array[index]->insert(object, ID);
+            element_counter++;
             return true; 
         }
         catch(Failure& e)
@@ -97,6 +100,7 @@ public:
         try
         {
             tree_array[index]->remove(ID);
+            element_counter--;
             return true;
         }
         catch(Failure& e)
