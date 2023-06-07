@@ -23,8 +23,9 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
     {
         customer_hash.zeroCustomerDebt();
         if(record_copies)
-            delete[] records_stocks;
-        records_stocks = new int[number_of_records];
+            delete[] record_copies;
+        record_copies = new int[number_of_records];
+        record_copies = records_stocks;
         return StatusType::SUCCESS;
     }
     catch(std::bad_alloc& e)
