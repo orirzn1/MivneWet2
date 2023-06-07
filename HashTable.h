@@ -12,6 +12,7 @@
 
 const int DOUBLE = 2;
 const int HALF = 0.5;
+static const int LOAD_FACTOR = 0.7;
 
 template <class T>
 class hashTable
@@ -26,13 +27,13 @@ private:
 public:
     explicit hashTable(int size) : table_size(size), tree_array(new Tree<T, int>*[size])
     {
-        for (int i = 0; i < size; ++i)
+        for (int i = 0; i < size; i++)
             tree_array[i] = new Tree<T, int>();
     }
 
     ~hashTable()
     {
-        for (int i = 0; i < table_size; ++i)
+        for (int i = 0; i < table_size; i++)
             delete tree_array[i];
         delete[] tree_array;
     }
