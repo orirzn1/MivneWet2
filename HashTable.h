@@ -42,7 +42,7 @@ public:
         modifySize(DOUBLE);
     }
     
-    hashTable halfSize()
+    void halfSize()
     {
         modifySize(HALF);
     }
