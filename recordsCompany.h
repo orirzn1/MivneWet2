@@ -1,7 +1,6 @@
 #ifndef RECORDS_COMPANY_H
 #define RECORDS_COMPANY_H
 
-#import <vector>
 #import "utilesWet2.h"
 #include "Customer.h"
 #include "Record.h"
