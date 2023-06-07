@@ -38,6 +38,13 @@ public:
     {
         money_owed = 0;
     }
+    void memberPayment(int price)
+    {
+        if(!is_member)
+            return;
+        else
+            money_owed += price; 
+    }
     
 };
 

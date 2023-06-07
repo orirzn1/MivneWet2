@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "recordsCompany.h"
 
-RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr)
+RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr), number_of_records(0)
 {
     
 }
@@ -21,6 +21,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
         return StatusType::INVALID_INPUT;
     try
     {
+        this->number_of_records = number_of_records;
         customer_hash.zeroCustomerDebt();
         if(record_copies)
             delete[] record_copies;
@@ -106,3 +107,25 @@ Output_t<bool> RecordsCompany::isMember(int c_id)
         return Output_t<bool>(StatusType::DOESNT_EXISTS);
     }
 }
+
+StatusType RecordsCompany::buyRecord(int c_id, int r_id)
+{
+    if(c_id < 0 || r_id < 0)
+        return StatusType::INVALID_INPUT;
+    if(r_id >= number_of_records)
+        return StatusType::DOESNT_EXISTS;
+    try
+    {
+        Customer* customer = customer_hash.findObject(c_id).get();
+        customer->memberPayment(record_copies[r_id].get()->getNumPurchases() + INITIAL_RECORD_PRICE);
+        record_copies[r_id].get()->purchase();
+        return StatusType::SUCCESS; 
+    }
+    catch(Failure& e)
+    {
+        return StatusType::DOESNT_EXISTS;
+    }
+    
+}
+
+
