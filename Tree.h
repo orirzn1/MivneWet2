@@ -8,6 +8,8 @@
 #ifndef Tree_h
 #define Tree_h
 
+#include <exception>
+
 class Failure : public std::exception
 {
 public:

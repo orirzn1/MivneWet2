@@ -7,24 +7,6 @@
 #include "HashTable.h"
 #include <memory>
 
-class doesNotExist : public std::exception
-{
-public:
-    const char * what() const throw ()
-    {
-        return "DOES NOT EXIST";
-    }
-};
-
-class alreadyExists : public std::exception
-{
-public:
-    const char * what() const throw ()
-    {
-        return "ALREADY EXISTS";
-    }
-};
-
 class RecordsCompany {
   private:
     hashTable<std::shared_ptr<Customer>> customer_hash;

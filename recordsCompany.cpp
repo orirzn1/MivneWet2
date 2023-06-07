@@ -13,7 +13,12 @@ RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Custo
     
 }
 
-RecordsCompany::~RecordsCompany() = default;
+RecordsCompany::~RecordsCompany()
+{
+    if(record_copies)
+        delete[] record_copies;
+    //The hash table and trees have their own destructors which will be called automatically
+}
 
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
 {
