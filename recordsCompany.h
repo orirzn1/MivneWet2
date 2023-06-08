@@ -22,7 +22,6 @@ class RecordsCompany {
     Output_t<int> getPhone(int c_id);
     StatusType makeMember(int c_id);
     Output_t<bool> isMember(int c_id);
-    //Do we need to decrease the number of copies for the record by 1 when we buyRecord?
     StatusType buyRecord(int c_id, int r_id);
     StatusType addPrize(int c_id1, int c_id2, double  amount);
     Output_t<double> getExpenses(int c_id);

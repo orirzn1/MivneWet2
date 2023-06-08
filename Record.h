@@ -30,7 +30,7 @@ public:
         return purchases;
     }
     
-    void purchase()
+    void addPurchase()
     {
         purchases++;
     }

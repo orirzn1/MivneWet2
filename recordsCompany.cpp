@@ -125,7 +125,7 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id)
     {
         Customer* customer = customer_hash.findObject(c_id).get();
         customer->memberPayment(record_copies[r_id].get()->getNumPurchases() + INITIAL_RECORD_PRICE);
-        record_copies[r_id].get()->purchase();
+        record_copies[r_id].get()->addPurchase();
         return StatusType::SUCCESS; 
     }
     catch(Failure& e)
