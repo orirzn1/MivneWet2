@@ -15,7 +15,7 @@ RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Custo
 
 RecordsCompany::~RecordsCompany()
 {
-    if(record_copies)
+    if(record_copies != nullptr)
         delete[] record_copies;
     //The hash table and trees have their own destructors which will be called automatically
 }

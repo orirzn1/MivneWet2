@@ -11,9 +11,7 @@
 #include "Tree.h"
 
 static const int DOUBLE = 2;
-static const double HALF = 0.5;
 static const double LOAD_FACTOR_MAX_THRESHOLD = 0.75;
-static const double LOAD_FACTOR_MIN_THRESHOLD = LOAD_FACTOR_MAX_THRESHOLD/4;
 static const int INITIAL_SIZE = 4;
 
 template <class T>
@@ -45,11 +43,6 @@ public:
     void doubleSize()
     {
         modifySize(DOUBLE);
-    }
-    
-    void halfSize()
-    {
-        modifySize(HALF);
     }
     
     void modifySize(int size_change_factor)
@@ -92,23 +85,6 @@ public:
             if(getLoadFactor() > LOAD_FACTOR_MAX_THRESHOLD)
                 doubleSize();
             return true; 
-        }
-        catch(Failure& e)
-        {
-            return false;
-        }
-    }
-
-    bool remove(int ID)
-    {
-        int index = hashFunction(ID);
-        try
-        {
-            tree_array[index]->remove(ID);
-            element_counter--;
-            if(getLoadFactor() < LOAD_FACTOR_MIN_THRESHOLD)
-                halfSize();
-            return true;
         }
         catch(Failure& e)
         {
