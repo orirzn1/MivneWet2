@@ -86,7 +86,7 @@ StatusType RecordsCompany::makeMember(int c_id)
         Customer* customer_raw = customer.get();
         if(customer_raw->getMemberStatus())
             return StatusType::ALREADY_EXISTS;
-        customer->makeMember();
+        customer_raw->makeMember();
         member_tree.insert(customer, c_id);
         return StatusType::SUCCESS;
     }
