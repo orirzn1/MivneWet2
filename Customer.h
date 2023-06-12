@@ -14,7 +14,7 @@ private:
     int ID;
     int phone_num;
     bool is_member;
-    int money_owed;
+    double money_owed;
     
 public:
     Customer(int c_id, int phone_num) : ID(c_id), phone_num(phone_num), is_member(false), money_owed(0){}
