@@ -376,6 +376,28 @@ public:
         // Print left subtree
         printTree(Node->left, level + 1);
     }
+    void printTreediscount() const
+    {
+        printTreediscount(root, 0);
+    }
+    void printTreediscount(node<nodeType, keyType>* Node, int level) const {
+        if (Node == nullptr)
+            return;
+
+        // Print right subtree
+        printTreediscount(Node->right, level + 1);
+
+        // Indentation based on the level
+        for (int i = 0; i < level; ++i)
+            std::cout << "    ";
+
+        // Print current node's ID
+        std::cout << Node->data.get()->extra_prize << std::endl;
+
+        // Print left subtree
+        printTreediscount(Node->left, level + 1);
+    }
+
 
 };
 

@@ -10,7 +10,7 @@
 
 class Customer
 {
-private:
+public:
     int ID;
     int phone_num;
     bool is_member;

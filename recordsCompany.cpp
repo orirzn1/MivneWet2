@@ -153,6 +153,7 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
     //lastmove = true if the last move was right and false if the last move was left
 
     addPrize_aux(root, amount, c_id2, false);
+
     addPrize_aux(root, -1*amount,c_id1,false);
 
 
@@ -176,6 +177,10 @@ void addPrize_aux(node<std::shared_ptr<Customer>,int>* node, double amount, int 
             if(last_move){
                 node->data->add_extra(-1*amount);
             }
+            if(node->left){
+                node->left->data->add_extra(amount);
+            }
+            return;
         }
     }
 }

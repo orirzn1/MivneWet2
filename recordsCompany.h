@@ -8,7 +8,7 @@
 #include <memory>
 
 class RecordsCompany {
-  private:
+  public:
     hashTable<std::shared_ptr<Customer>> customer_hash;
     std::shared_ptr<Record>* record_copies;
     Tree<std::shared_ptr<Customer>, int> member_tree; 
