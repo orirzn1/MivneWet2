@@ -9,6 +9,8 @@
 #define Tree_h
 
 #include <exception>
+#include <iostream>
+
 
 class Failure : public std::exception
 {
@@ -329,6 +331,8 @@ public:
         }
     }
 
+
+
     StatusType insertDescendingOrder(int* const output)
     {
         int initial_index = 0;
@@ -350,6 +354,29 @@ public:
         if(node->left)
             insertDescendingOrderRecursion(output, node->left, index);
     }
+
+    void printTree() const
+    {
+        printTree(root, 0);
+    }
+    void printTree(node<nodeType, keyType>* Node, int level) const {
+        if (Node == nullptr)
+            return;
+
+        // Print right subtree
+        printTree(Node->right, level + 1);
+
+        // Indentation based on the level
+        for (int i = 0; i < level; ++i)
+            std::cout << "    ";
+
+        // Print current node's ID
+        std::cout << Node->data.get()->ID << std::endl;
+
+        // Print left subtree
+        printTree(Node->left, level + 1);
+    }
+
 };
 
 #endif /* Tree_h */

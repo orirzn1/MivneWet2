@@ -20,6 +20,8 @@ RecordsCompany::~RecordsCompany()
     //The hash table and trees have their own destructors which will be called automatically
 }
 
+double CalculateDiscount(int c_id, node<std::shared_ptr<Customer>,int>* N, double discount);
+
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
 {
     if(number_of_records < 0)
@@ -88,6 +90,8 @@ StatusType RecordsCompany::makeMember(int c_id)
             return StatusType::ALREADY_EXISTS;
         customer_raw->makeMember();
         member_tree.insert(customer, c_id);
+        double discount = CalculateDiscount(c_id,member_tree.getRoot(),0);
+        member_tree.findNode(c_id)->data->add_extra(-1*discount);
         return StatusType::SUCCESS;
     }
     catch(Failure& e)
@@ -135,4 +139,74 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id)
     
 }
 
+void addPrize_aux(node<std::shared_ptr<Customer>,int>* node, double amount, int c_id, bool last_move);
+
+StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
+{
+    if(c_id1 < 0 || c_id2 < c_id1 || amount <= 0)
+        return StatusType::INVALID_INPUT;
+
+
+
+    node<std::shared_ptr<Customer>,int>* root = member_tree.getRoot();
+
+    //lastmove = true if the last move was right and false if the last move was left
+
+    addPrize_aux(root, amount, c_id2, false);
+    addPrize_aux(root, -1*amount,c_id1,false);
+
+
+}
+
+void addPrize_aux(node<std::shared_ptr<Customer>,int>* node, double amount, int c_id, bool last_move){
+    if(node){
+        if (node->data->getID() < c_id){
+            if(!last_move){
+                node->data->add_extra(amount);
+            }
+            addPrize_aux(node->right,amount,c_id,true);
+            return;
+        } else if (node->data->getID() > c_id) {
+            if(last_move){
+                node->data->add_extra(-1*amount);
+            }
+            addPrize_aux(node->left,amount,c_id,false);
+            return;
+        } else{
+            if(last_move){
+                node->data->add_extra(-1*amount);
+            }
+        }
+    }
+}
+ Output_t<double> RecordsCompany::getExpenses(int c_id) {
+
+     if(c_id < 0 )
+         return StatusType::INVALID_INPUT;
+     try{
+         std::shared_ptr<Customer> target = customer_hash.findObject(c_id);
+         double money_owed = target->getMoneyOwed();
+         if (!(target->getMemberStatus())){
+             return money_owed;
+         } else{
+             return money_owed - CalculateDiscount(c_id, member_tree.getRoot(), 0);
+         }
+     } catch (Failure& e) {
+         return StatusType::DOESNT_EXISTS;
+     }
+
+
+}
+
+double CalculateDiscount(int c_id, node<std::shared_ptr<Customer>,int>* N, double discount)
+{
+    discount += N->data->get_prize();
+    if (c_id > N->data->getID()){
+        return CalculateDiscount(c_id,N->right,discount);
+    } else if(c_id < N->data->getID()){
+        return CalculateDiscount(c_id,N->left,discount);
+    } else
+        return discount;
+
+}
 
