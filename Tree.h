@@ -24,6 +24,7 @@ public:
 template<class nodeType, class keyType>
 struct node
 {
+
     keyType key;
     nodeType data;
     node* left;
@@ -44,7 +45,7 @@ protected:
 public:
 
     Tree() :  largest_node_ID(0), node_count(0), root(nullptr) {}
-    ~Tree()
+    virtual ~Tree()
     {
         destroyTree(root);
     }
@@ -94,7 +95,7 @@ public:
         return root;
     }
 
-    node<nodeType, keyType>* rightRotate(node<nodeType, keyType>* node_a){
+    virtual node<nodeType, keyType>* rightRotate(node<nodeType, keyType>* node_a){
         node<nodeType, keyType>* node_b = node_a->left;
         node_a->left = node_b->right;
         node_b->right = node_a;
@@ -106,7 +107,7 @@ public:
     }
 
 
-    node<nodeType, keyType>* leftRotate(node<nodeType, keyType>* node_a){
+    virtual node<nodeType, keyType>* leftRotate(node<nodeType, keyType>* node_a){
         node<nodeType, keyType>* node_b = node_a->right;
         node_a->right = node_b->left;
         node_b->left = node_a;

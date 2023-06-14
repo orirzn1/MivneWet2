@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "recordsCompany.h"
 
-RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr), member_tree(Tree<std::shared_ptr<Customer>, int>()), number_of_records(0)
+RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr), member_tree(MemberTree()), number_of_records(0)
 {
     
 }

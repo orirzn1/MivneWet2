@@ -5,13 +5,14 @@
 #include "Customer.h"
 #include "Record.h"
 #include "HashTable.h"
+#include "MemberTree.h"
 #include <memory>
 
 class RecordsCompany {
   public:
     hashTable<std::shared_ptr<Customer>> customer_hash;
     std::shared_ptr<Record>* record_copies;
-    Tree<std::shared_ptr<Customer>, int> member_tree; 
+    MemberTree member_tree;
     int number_of_records;
     
   public:
