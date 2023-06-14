@@ -155,8 +155,8 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double amount)
     addPrize_aux(root, amount, c_id2, false);
 
     addPrize_aux(root, -1*amount,c_id1,false);
-
-
+    
+    return StatusType::SUCCESS;
 }
 
 void addPrize_aux(node<std::shared_ptr<Customer>,int>* node, double amount, int c_id, bool last_move){
