@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include "recordsCompany.h"
 
-RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr), member_tree(MemberTree()), number_of_records(0)
+RecordsCompany::RecordsCompany() : customer_hash(hashTable<std::shared_ptr<Customer>>()), record_copies(nullptr), member_tree(MemberTree()), number_of_records(0),
+                                   stacks_of_records(1)
 {
     
 }
@@ -38,6 +39,9 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
             record_copies[i] = record;
         }
         this->number_of_records = number_of_records;
+
+        stacks_of_records = UnionFind(number_of_records);
+
         return StatusType::SUCCESS;
     }
     catch(std::bad_alloc& e)
@@ -213,5 +217,31 @@ double CalculateDiscount(int c_id, node<std::shared_ptr<Customer>,int>* N, doubl
     } else
         return discount;
 
+}
+
+
+StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
+{
+    if(r_id1 < 0 || r_id2 < 0)
+        return StatusType::INVALID_INPUT;
+    if(r_id1 >= number_of_records || r_id2 >= number_of_records)
+        return DOESNT_EXISTS;
+
+    stacks_of_records.unite(r_id1, r_id2);
+    return SUCCESS;
+
+}
+
+StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
+    if(column == NULL || hight == NULL || r_id<0)
+        return INVALID_INPUT;
+    if(r_id >= number_of_records)
+        return DOESNT_EXISTS;
+
+
+    *column = stacks_of_records.find(r_id);
+    *hight = stacks_of_records.getHeight(r_id);
+
+    return SUCCESS;
 }
 

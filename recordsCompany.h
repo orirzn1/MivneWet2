@@ -6,6 +6,7 @@
 #include "Record.h"
 #include "HashTable.h"
 #include "MemberTree.h"
+#include "UnionFind.h"
 #include <memory>
 
 class RecordsCompany {
@@ -14,6 +15,7 @@ class RecordsCompany {
     std::shared_ptr<Record>* record_copies;
     MemberTree member_tree;
     int number_of_records;
+    UnionFind stacks_of_records;
     
   public:
     RecordsCompany();
