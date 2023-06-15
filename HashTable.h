@@ -113,7 +113,8 @@ public:
         {
             zeroCustomerDebtAux(N->right);
             zeroCustomerDebtAux(N->left);
-            N->data.get()->zeroCustomerDebt(); 
+            N->data.get()->zeroCustomerDebt();
+            N->data.get()->zeroDiscount();
         }
     }
     

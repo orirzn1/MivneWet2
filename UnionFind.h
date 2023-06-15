@@ -63,6 +63,8 @@ public:
         rank = new int[size];
         height_to_parent = new int[size];
         height_of_stack = new int[size];
+        column = new int[size];
+
 
         for (int i = 0; i < size; i++){
             parent[i] = other.parent[i];
@@ -125,13 +127,13 @@ public:
 
     int getHeight(int index){
         if (parent[index]==index){
-            return height_to_parent[index] + 1;
+            return height_to_parent[index];
         } else{
             column[index] = column[parent[index]];
             height_to_parent[index]+= height_to_parent[parent[index]];
             parent[index] = find(parent[index]);
         }
-        return height_to_parent[index]+1;
+        return height_to_parent[index];
     };
 
     int getColumn(int index){

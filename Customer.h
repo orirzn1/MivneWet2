@@ -61,6 +61,10 @@ public:
         return extra_prize;
     }
 
+    void zeroDiscount(){
+        extra_prize = 0;
+    };
+
 };
 
 #endif /* Customer_h */

@@ -194,12 +194,11 @@ void addPrize_aux(node<std::shared_ptr<Customer>,int>* node, double amount, int 
          return StatusType::INVALID_INPUT;
      try{
          std::shared_ptr<Customer> target = customer_hash.findObject(c_id);
-         double money_owed = target->getMoneyOwed();
-         if (!(target->getMemberStatus())){
-             return money_owed;
-         } else{
-             return money_owed - CalculateDiscount(c_id, member_tree.getRoot(), 0);
+         if(!(target->getMemberStatus())){
+             return StatusType::DOESNT_EXISTS;
          }
+         double money_owed = target->getMoneyOwed() - CalculateDiscount(c_id,member_tree.getRoot(),0);
+         return money_owed;
      } catch (Failure& e) {
          return StatusType::DOESNT_EXISTS;
      }
@@ -226,6 +225,9 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
         return StatusType::INVALID_INPUT;
     if(r_id1 >= number_of_records || r_id2 >= number_of_records)
         return DOESNT_EXISTS;
+
+    if(stacks_of_records.find(r_id1) == stacks_of_records.find(r_id2))
+        return StatusType::FAILURE;
 
     stacks_of_records.unite(r_id1, r_id2);
 

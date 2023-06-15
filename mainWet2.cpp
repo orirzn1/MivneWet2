@@ -1,4 +1,4 @@
-/*#include "recordsCompany.h"
+#include "recordsCompany.h"
 #include "utilesWet2.h"
 #include <string>
 #include <iostream>
@@ -180,4 +180,3 @@ vector<int> getRecordsStocks()
 
   return stocks_vec;
 }
- */
