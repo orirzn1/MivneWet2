@@ -41,6 +41,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
         this->number_of_records = number_of_records;
 
         stacks_of_records = UnionFind(number_of_records);
+        stacks_of_records.getArray(records_stocks);
 
         return StatusType::SUCCESS;
     }

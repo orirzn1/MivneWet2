@@ -13,8 +13,9 @@
 #include "Record.h"
 
 class UnionFind{
-private:
+public:
     int size;
+    int* num_of_copies;
     int* parent;
     int* rank;
     int* height_to_parent;
@@ -23,6 +24,7 @@ private:
 
 public:
     UnionFind(int n): size(n) {
+        num_of_copies = new int[size];
         parent = new int[size];
         rank = new int[size];
         height_to_parent = new int[size];
@@ -34,12 +36,13 @@ public:
             parent[i] = i;
             rank [i] = 0;
             height_to_parent[i] = 0;
-            height_of_stack[i] = 1;
+            height_of_stack[i] = 0;
             column[i] = i;
         }
     }
 
     ~UnionFind(){
+        delete[] num_of_copies;
         delete[] parent;
         delete[] rank;
         delete[] height_to_parent;
@@ -53,6 +56,7 @@ public:
 
         size = other.size;
 
+        delete[] num_of_copies;
         delete[] parent;
         delete[] rank;
         delete[] height_to_parent;
@@ -79,12 +83,21 @@ public:
 
     }
 
+    void getArray (int* arr){
+        for (int i = 0; i<size; i++){
+            num_of_copies[i] = arr[i];
+            height_of_stack[i] = arr[i];
+        }
+
+    }
+
     int find (int index){
 
         if (parent[index]==index){
             return index;
         } else{
-            height_to_parent[index]+= height_to_parent[parent[index]];
+            if(parent[parent[index]]!=parent[index])
+                height_to_parent[index] += (height_to_parent[parent[index]] + num_of_copies[parent[index]] -1);
             column[index] = column[parent[index]];
             parent[index] = find(parent[index]);
         }

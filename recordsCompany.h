@@ -16,6 +16,7 @@ class RecordsCompany {
     MemberTree member_tree;
     int number_of_records;
     UnionFind stacks_of_records;
+
     
   public:
     RecordsCompany();
