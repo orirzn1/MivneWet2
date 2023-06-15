@@ -116,7 +116,7 @@ public:
 
         } else{
             parent[root1] = root2;
-            height_to_parent[root1] = height_of_stack[root2];
+            height_to_parent[root1] += (height_of_stack[root2] - height_to_parent[root2]);
             rank[root2]++;
             height_of_stack[root2]+=height_of_stack[root1];
         }

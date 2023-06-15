@@ -17,10 +17,9 @@ private:
     int copies;
     int purchases;
     int price;
-    int member_discount; //This might not be an int, double check
     
 public:
-    Record(int ID, int copies) : ID(ID), copies(copies), purchases(0), price(INITIAL_RECORD_PRICE), member_discount(0)
+    Record(int ID, int copies) : ID(ID), copies(copies), purchases(0), price(INITIAL_RECORD_PRICE)
     {
         
     }
