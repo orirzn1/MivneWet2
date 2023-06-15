@@ -63,6 +63,7 @@ public:
         delete[] height_of_stack;
         delete[] column;
 
+        num_of_copies = new int[size];
         parent = new int[size];
         rank = new int[size];
         height_to_parent = new int[size];
