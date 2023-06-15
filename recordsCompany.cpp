@@ -228,6 +228,7 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
         return DOESNT_EXISTS;
 
     stacks_of_records.unite(r_id1, r_id2);
+
     return SUCCESS;
 
 }
@@ -239,7 +240,7 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
         return DOESNT_EXISTS;
 
 
-    *column = stacks_of_records.find(r_id);
+    *column = stacks_of_records.getColumn(r_id);
     *hight = stacks_of_records.getHeight(r_id);
 
     return SUCCESS;

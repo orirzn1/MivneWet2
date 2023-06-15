@@ -13,12 +13,13 @@
 #include "Record.h"
 
 class UnionFind{
-
+private:
     int size;
     int* parent;
     int* rank;
     int* height_to_parent;
     int* height_of_stack;
+    int* column;
 
 public:
     UnionFind(int n): size(n) {
@@ -26,6 +27,7 @@ public:
         rank = new int[size];
         height_to_parent = new int[size];
         height_of_stack = new int[size];
+        column = new int[size];
 
 
         for (int i = 0; i < size; i++){
@@ -33,6 +35,7 @@ public:
             rank [i] = 0;
             height_to_parent[i] = 0;
             height_of_stack[i] = 1;
+            column[i] = i;
         }
     }
 
@@ -41,6 +44,7 @@ public:
         delete[] rank;
         delete[] height_to_parent;
         delete[] height_of_stack;
+        delete[] column;
     }
 
     UnionFind& operator=(const UnionFind& other){
@@ -53,6 +57,7 @@ public:
         delete[] rank;
         delete[] height_to_parent;
         delete[] height_of_stack;
+        delete[] column;
 
         parent = new int[size];
         rank = new int[size];
@@ -64,6 +69,7 @@ public:
             rank[i] = other.rank[i];
             height_to_parent[i] = other.height_to_parent[i];
             height_of_stack[i] = other.height_of_stack[i];
+            column[i] = other.column[i];
         }
 
         return *this;
@@ -77,6 +83,7 @@ public:
             return index;
         } else{
             height_to_parent[index]+= height_to_parent[parent[index]];
+            column[index] = column[parent[index]];
             parent[index] = find(parent[index]);
         }
         return parent[index];
@@ -92,14 +99,20 @@ public:
             return;
         }
 
+        column[root1] = column[root2];
+
         if(rank[root1]>rank[root2]){
             parent[root2] = root1;
-            height_to_parent[root2] = height_of_stack[root1];
-            height_of_stack[root1]+=height_of_stack[root2];
+            rank[root1]++;
+            height_to_parent[root2] -= height_of_stack[root2];
+            height_to_parent[root1] += height_of_stack[root2];
+            height_of_stack[root1] += height_of_stack[root2];
         } else if(rank[root1]<rank[root2]){
             parent[root1] = root2;
-            height_to_parent[root1] = height_of_stack[root2];
-            height_of_stack[root2]+=height_of_stack[root1];
+            rank[root1]++;
+            height_to_parent[root1] += (height_of_stack[root2] - height_to_parent[root2]);
+            height_of_stack[root2] += height_of_stack[root1];
+
 
         } else{
             parent[root1] = root2;
@@ -114,10 +127,22 @@ public:
         if (parent[index]==index){
             return height_to_parent[index] + 1;
         } else{
+            column[index] = column[parent[index]];
             height_to_parent[index]+= height_to_parent[parent[index]];
             parent[index] = find(parent[index]);
         }
-        return height_to_parent[index] + 1;
+        return height_to_parent[index]+1;
+    };
+
+    int getColumn(int index){
+        if (parent[index]==index){
+            return column[index];
+        } else{
+            column[index] = column[parent[index]];
+            height_to_parent[index]+= height_to_parent[parent[index]];
+            parent[index] = find(parent[index]);
+        }
+        return column[index];
     };
 
 };
