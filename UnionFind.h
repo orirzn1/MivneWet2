@@ -139,15 +139,14 @@ public:
 
     }
 
-    int getHeight(int index){
+    int getHeight(int index, int height){
         if (parent[index]==index){
-            return height_to_parent[index];
+            height += height_to_parent[index];
+            return height;
         } else{
-            column[index] = column[parent[index]];
-            height_to_parent[index]+= height_to_parent[parent[index]];
-            parent[index] = find(parent[index]);
+            height += (height_to_parent[index] + getHeight(parent[index],height));
         }
-        return height_to_parent[index];
+        return height;
     };
 
     int getColumn(int index){
@@ -155,7 +154,8 @@ public:
             return column[index];
         } else{
             column[index] = column[parent[index]];
-            height_to_parent[index]+= height_to_parent[parent[index]];
+           if(parent[parent[index]]!=parent[index])
+                height_to_parent[index]+= height_to_parent[parent[index]];
             parent[index] = find(parent[index]);
         }
         return column[index];

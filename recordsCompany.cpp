@@ -244,7 +244,7 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
 
 
     *column = stacks_of_records.getColumn(r_id);
-    *hight = stacks_of_records.getHeight(r_id);
+    *hight = stacks_of_records.getHeight(r_id,0);
 
     return SUCCESS;
 }
