@@ -25,8 +25,11 @@ double CalculateDiscount(int c_id, node<std::shared_ptr<Customer>,int>* N, doubl
 
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records)
 {
-    if(number_of_records < 0)
+    if(number_of_records < 0) {
+
         return StatusType::INVALID_INPUT;
+    }
+
     try
     {
         customer_hash.zeroCustomerDebt();
@@ -95,8 +98,8 @@ StatusType RecordsCompany::makeMember(int c_id)
             return StatusType::ALREADY_EXISTS;
         customer_raw->makeMember();
         member_tree.insert(customer, c_id);
-        double discount = CalculateDiscount(c_id,member_tree.getRoot(),0);
-        member_tree.findNode(c_id)->data->add_extra(-1*discount);
+        //double discount = CalculateDiscount(c_id,member_tree.getRoot(),0);
+        //member_tree.findNode(c_id)->data->add_extra(-1*discount);
         return StatusType::SUCCESS;
     }
     catch(Failure& e)
@@ -229,6 +232,7 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2)
 
     if(stacks_of_records.find(r_id1) == stacks_of_records.find(r_id2))
         return StatusType::FAILURE;
+    
 
     stacks_of_records.unite(r_id1, r_id2);
 
@@ -245,6 +249,7 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
 
     *column = stacks_of_records.getColumn(r_id);
     *hight = stacks_of_records.getHeight(r_id,0);
+
 
     return SUCCESS;
 }

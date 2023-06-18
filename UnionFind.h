@@ -97,10 +97,11 @@ public:
         if (parent[index]==index){
             return index;
         } else{
-            if(parent[parent[index]]!=parent[index])
-                height_to_parent[index] += (height_to_parent[parent[index]] + num_of_copies[parent[index]] -1);
-            column[index] = column[parent[index]];
-            parent[index] = find(parent[index]);
+            //if(parent[parent[index]]!=parent[index])
+             //   height_to_parent[index] += (height_to_parent[parent[index]]);
+            //column[index] = column[parent[index]];
+            //parent[index] = find(parent[index]);
+            return find(parent[index]);
         }
         return parent[index];
 
@@ -120,7 +121,7 @@ public:
         if(rank[root1]>rank[root2]){
             parent[root2] = root1;
             rank[root1]++;
-            height_to_parent[root2] -= height_of_stack[root2];
+            height_to_parent[root2] -= (height_of_stack[root2] + height_to_parent[root1]);
             height_to_parent[root1] += height_of_stack[root2];
             height_of_stack[root1] += height_of_stack[root2];
         } else if(rank[root1]<rank[root2]){
@@ -152,14 +153,10 @@ public:
     int getColumn(int index){
         if (parent[index]==index){
             return column[index];
-        } else{
-            column[index] = column[parent[index]];
-           if(parent[parent[index]]!=parent[index])
-                height_to_parent[index]+= height_to_parent[parent[index]];
-            parent[index] = find(parent[index]);
+        } else {
+            return getColumn(parent[index]);
         }
-        return column[index];
-    };
+    }
 
 };
 

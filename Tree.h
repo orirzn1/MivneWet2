@@ -119,7 +119,7 @@ public:
 
     }
 
-    void insert(nodeType& data, keyType& key)
+    virtual void insert(nodeType& data, keyType& key)
     {
         if(root == nullptr || key > rightLeaf(root)->key)
             largest_node_ID = data.get()->getID();
@@ -127,7 +127,7 @@ public:
         node_count++;
     }
     
-    node<nodeType, keyType>* insert_recursion(node<nodeType, keyType>* Node, nodeType& data, keyType& key)
+    virtual node<nodeType, keyType>* insert_recursion(node<nodeType, keyType>* Node, nodeType& data, keyType& key)
     {
         if(Node == nullptr)
         {
